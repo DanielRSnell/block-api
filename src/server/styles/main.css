@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@source "../pages/**/**/*";
+@source "../pages/**/*";
+@source "../pages/*";
+
+
+@theme {
+    
+}

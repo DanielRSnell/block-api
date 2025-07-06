@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accordion Example - Collapsible Content Sections</title>
+</head>
+<body>
+
+<!-- 
+    Accordion Example
+    
+    This demonstrates a complete accordion system with multiple collapsible sections.
+    Perfect for FAQs, product details, or any content that needs to be organized
+    into expandable sections.
+-->
+
+<accordion class="faq-accordion">
+    
+    <accordion-item class="faq-item">
+        <accordion-toggle class="faq-question">
+            What is your return policy?
+        </accordion-toggle>
+        <accordion-content class="faq-answer">
+            <p>We offer a 30-day return policy for all unused items in their original packaging. Simply contact our customer service team to initiate a return.</p>
+            <ul>
+                <li>Items must be in original condition</li>
+                <li>Returns processed within 5-7 business days</li>
+                <li>Free return shipping on defective items</li>
+            </ul>
+        </accordion-content>
+    </accordion-item>
+    
+    <accordion-item class="faq-item">
+        <accordion-toggle class="faq-question">
+            How long does shipping take?
+        </accordion-toggle>
+        <accordion-content class="faq-answer">
+            <p>Shipping times vary based on your location and selected shipping method:</p>
+            <div class="shipping-options">
+                <div class="shipping-option">
+                    <strong>Standard Shipping:</strong> 5-7 business days
+                </div>
+                <div class="shipping-option">
+                    <strong>Express Shipping:</strong> 2-3 business days
+                </div>
+                <div class="shipping-option">
+                    <strong>Overnight:</strong> Next business day
+                </div>
+            </div>
+        </accordion-content>
+    </accordion-item>
+    
+    <accordion-item class="faq-item">
+        <accordion-toggle class="faq-question">
+            Do you offer international shipping?
+        </accordion-toggle>
+        <accordion-content class="faq-answer">
+            <p>Yes, we ship to over 50 countries worldwide. International shipping rates and times vary by destination.</p>
+            <p>Please note that international orders may be subject to customs duties and taxes, which are the responsibility of the customer.</p>
+        </accordion-content>
+    </accordion-item>
+    
+    <accordion-item class="faq-item">
+        <accordion-toggle class="faq-question">
+            How can I track my order?
+        </accordion-toggle>
+        <accordion-content class="faq-answer">
+            <p>Once your order ships, you'll receive a tracking email with your tracking number and a link to track your package.</p>
+            <p>You can also track your order by:</p>
+            <ol>
+                <li>Logging into your account</li>
+                <li>Going to "Order History"</li>
+                <li>Clicking on the order you want to track</li>
+            </ol>
+        </accordion-content>
+    </accordion-item>
+    
+</accordion>
+
+<!-- Product Accordion Example -->
+<accordion class="product-details-accordion">
+    
+    <h2>Product Information</h2>
+    
+    <accordion-item class="product-section">
+        <accordion-toggle class="section-title" tag="h3">
+            Features & Specifications
+        </accordion-toggle>
+        <accordion-content class="section-content">
+            <div class="features-grid">
+                <div class="feature">
+                    <h4>Premium Materials</h4>
+                    <p>Crafted from high-quality, sustainable materials for lasting durability.</p>
+                </div>
+                <div class="feature">
+                    <h4>Advanced Technology</h4>
+                    <p>Incorporating the latest innovations for superior performance.</p>
+                </div>
+                <div class="feature">
+                    <h4>Ergonomic Design</h4>
+                    <p>Thoughtfully designed for comfort and ease of use.</p>
+                </div>
+            </div>
+        </accordion-content>
+    </accordion-item>
+    
+    <accordion-item class="product-section">
+        <accordion-toggle class="section-title" tag="h3">
+            Care Instructions
+        </accordion-toggle>
+        <accordion-content class="section-content">
+            <div class="care-instructions">
+                <h4>Daily Care</h4>
+                <ul>
+                    <li>Wipe clean with a damp cloth</li>
+                    <li>Avoid harsh chemicals or abrasives</li>
+                    <li>Store in a cool, dry place</li>
+                </ul>
+                
+                <h4>Deep Cleaning</h4>
+                <ul>
+                    <li>Use mild soap and warm water</li>
+                    <li>Allow to air dry completely</li>
+                    <li>Apply protective coating if recommended</li>
+                </ul>
+            </div>
+        </accordion-content>
+    </accordion-item>
+    
+    <accordion-item class="product-section">
+        <accordion-toggle class="section-title" tag="h3">
+            Warranty Information
+        </accordion-toggle>
+        <accordion-content class="section-content">
+            <div class="warranty-details">
+                <p><strong>2-Year Limited Warranty</strong></p>
+                <p>This product is covered against manufacturing defects for two years from the date of purchase.</p>
+                
+                <h4>What's Covered:</h4>
+                <ul>
+                    <li>Manufacturing defects</li>
+                    <li>Material failures under normal use</li>
+                    <li>Functional component malfunctions</li>
+                </ul>
+                
+                <h4>What's Not Covered:</h4>
+                <ul>
+                    <li>Normal wear and tear</li>
+                    <li>Damage from misuse or accidents</li>
+                    <li>Cosmetic damage that doesn't affect function</li>
+                </ul>
+            </div>
+        </accordion-content>
+    </accordion-item>
+    
+</accordion>
+
+</body>
+</html>

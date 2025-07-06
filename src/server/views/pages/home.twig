@@ -1,0 +1,356 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}Block Convert API - HTML to WordPress Blocks Converter{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/30 py-12 sm:py-16 lg:py-20">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 -z-10 overflow-hidden">
+        <div class="absolute -top-40 left-[calc(50%-4rem)] transform-gpu blur-3xl sm:left-[calc(50%-18rem)] lg:left-48 lg:top-[calc(50%-30rem)] xl:left-[calc(50%-24rem)]">
+            <div class="aspect-[1108/632] w-[69.25rem] bg-gradient-to-r from-primary/20 to-secondary/20 opacity-20" style="clip-path: polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)"></div>
+        </div>
+    </div>
+    
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-4xl text-center">
+            <!-- Badge -->
+            <div class="mb-6 flex justify-center">
+                <div class="relative rounded-full px-3 py-1 text-sm leading-6 text-muted-foreground ring-1 ring-border/30 hover:ring-primary/20 transition-colors bg-background/50 backdrop-blur">
+                    <span class="font-semibold text-primary">✨ New</span> Multi-provider WordPress block conversion
+                </div>
+            </div>
+            
+            <!-- Main Heading -->
+            <h1 class="text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl leading-tight">
+                <span class="gradient-text-foreground">
+                    Seamlessly Convert Between
+                </span><br class="hidden sm:block">
+                <span class="gradient-text-primary">
+                    HTML &amp; WordPress Blocks
+                </span>
+            </h1>
+            
+            <!-- Description -->
+            <p class="mt-6 text-base leading-7 text-muted-foreground sm:text-lg max-w-3xl mx-auto text-balance">
+                Convert HTML to WordPress blocks and vice versa with our powerful API. Support for Greenshift, GenerateBlocks, and Gutenberg with real-time preview.
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="mt-8 flex items-center justify-center gap-x-4">
+                <a href="/tool" class="btn btn-primary px-6 py-2 text-sm">
+                    Try Interactive Tool
+                </a>
+                <a href="/api-docs" class="btn btn-outline px-6 py-2 text-sm">
+                    View Documentation
+                    <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <!-- Stats -->
+            <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-3">
+                <div class="flex flex-col items-center">
+                    <div class="text-2xl font-bold text-primary">4+</div>
+                    <div class="text-sm text-muted-foreground">Block Providers</div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-2xl font-bold text-primary">100%</div>
+                    <div class="text-sm text-muted-foreground">API Uptime</div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-2xl font-bold text-primary">< 100ms</div>
+                    <div class="text-sm text-muted-foreground">Response Time</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Feature Cards Section -->
+<section class="py-16 sm:py-20">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl text-center">
+            <h2 class="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                Everything you need to convert blocks
+            </h2>
+            <p class="mt-4 text-base leading-7 text-muted-foreground text-balance">
+                Powerful features built for developers and content creators
+            </p>
+        </div>
+        
+        <div class="mx-auto mt-12 grid max-w-2xl grid-cols-1 gap-6 sm:mt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-6">
+            <!-- Feature 1 -->
+            <div class="relative group">
+                <div class="card h-full transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/20">
+                    <div class="card-header">
+                        <div class="flex items-center gap-4">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                                <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="card-title text-lg">Lightning Fast</h3>
+                                <p class="text-sm text-muted-foreground">Sub-100ms response times</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description text-base">
+                            High-performance conversions with comprehensive validation, error handling, and caching for optimal speed.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="relative group">
+                <div class="card h-full transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/20">
+                    <div class="card-header">
+                        <div class="flex items-center gap-4">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                                <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="card-title text-lg">Bidirectional</h3>
+                                <p class="text-sm text-muted-foreground">HTML ↔ Blocks conversion</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description text-base">
+                            Convert HTML to blocks or blocks back to clean HTML seamlessly with full fidelity preservation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="relative group">
+                <div class="card h-full transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/20">
+                    <div class="card-header">
+                        <div class="flex items-center gap-4">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                                <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="card-title text-lg">Multi-Provider</h3>
+                                <p class="text-sm text-muted-foreground">4+ block systems supported</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description text-base">
+                            Support for Greenshift, GenerateBlocks, GenerateBlocks Pro, and native Gutenberg blocks.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Block Providers Section -->
+<section class="py-16 sm:py-20 bg-muted/20">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl text-center">
+            <h2 class="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                Supported Block Providers
+            </h2>
+            <p class="mt-4 text-base leading-7 text-muted-foreground text-balance">
+                Convert to and from any WordPress block ecosystem with full feature support
+            </p>
+        </div>
+        
+        <div class="mx-auto mt-12 grid max-w-2xl grid-cols-1 gap-4 sm:mt-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:gap-6 xl:grid-cols-4">
+            <div class="group relative">
+                <div class="card h-full transition-all duration-300 hover:shadow-lg hover:shadow-green-500/10 hover:border-green-500/20">
+                    <div class="card-header pb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
+                                <span class="text-xl font-bold text-white">G</span>
+                            </div>
+                            <div>
+                                <h3 class="card-title text-lg">Greenshift</h3>
+                                <p class="text-xs text-muted-foreground">Animation & Interaction</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">
+                            Advanced animation and interaction blocks for modern WordPress sites with CSS3 and GSAP support.
+                        </p>
+                        <div class="mt-4 flex flex-wrap gap-1">
+                            <span class="badge badge-secondary text-xs">CSS3</span>
+                            <span class="badge badge-secondary text-xs">GSAP</span>
+                            <span class="badge badge-secondary text-xs">Animations</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="group relative">
+                <div class="card h-full transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 hover:border-blue-500/20">
+                    <div class="card-header pb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg">
+                                <span class="text-lg font-bold text-white">GB</span>
+                            </div>
+                            <div>
+                                <h3 class="card-title text-lg">GenerateBlocks</h3>
+                                <p class="text-xs text-muted-foreground">Lightweight & Flexible</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">
+                            Lightweight, flexible block system for creating custom layouts with minimal overhead.
+                        </p>
+                        <div class="mt-4 flex flex-wrap gap-1">
+                            <span class="badge badge-secondary text-xs">Lightweight</span>
+                            <span class="badge badge-secondary text-xs">Fast</span>
+                            <span class="badge badge-secondary text-xs">Layouts</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="group relative">
+                <div class="card h-full transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 hover:border-purple-500/20">
+                    <div class="card-header pb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg">
+                                <span class="text-lg font-bold text-white">GP</span>
+                            </div>
+                            <div>
+                                <h3 class="card-title text-lg">GenerateBlocks Pro</h3>
+                                <p class="text-xs text-muted-foreground">Premium Features</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">
+                            Premium blocks with advanced features, dynamic content, and extensive customization options.
+                        </p>
+                        <div class="mt-4 flex flex-wrap gap-1">
+                            <span class="badge badge-secondary text-xs">Dynamic</span>
+                            <span class="badge badge-secondary text-xs">Advanced</span>
+                            <span class="badge badge-secondary text-xs">Pro</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="group relative">
+                <div class="card h-full transition-all duration-300 hover:shadow-lg hover:shadow-gray-500/10 hover:border-gray-500/20">
+                    <div class="card-header pb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-gray-600 to-gray-800 shadow-lg">
+                                <span class="text-lg font-bold text-white">WP</span>
+                            </div>
+                            <div>
+                                <h3 class="card-title text-lg">Gutenberg</h3>
+                                <p class="text-xs text-muted-foreground">WordPress Core</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">
+                            Native WordPress core blocks for standard content creation and block editor compatibility.
+                        </p>
+                        <div class="mt-4 flex flex-wrap gap-1">
+                            <span class="badge badge-secondary text-xs">Core</span>
+                            <span class="badge badge-secondary text-xs">Native</span>
+                            <span class="badge badge-secondary text-xs">Standard</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- API Examples Section -->
+<section class="py-16">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl text-center">
+            <h2 class="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                Start Converting in Minutes
+            </h2>
+            <p class="mt-4 text-base leading-7 text-muted-foreground text-balance">
+                Simple REST API endpoints for seamless HTML ↔ Block conversion
+            </p>
+        </div>
+        
+        <div class="mx-auto mt-12 grid max-w-2xl grid-cols-1 gap-6 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+            <div class="card">
+                <div class="card-header">
+                    <div class="flex items-center gap-2">
+                        <div class="flex h-6 w-6 items-center justify-center rounded bg-primary/10">
+                            <svg class="h-3 w-3 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39z"/>
+                            </svg>
+                        </div>
+                        <h3 class="card-title">HTML to Blocks</h3>
+                    </div>
+                    <p class="card-description mt-2">Convert HTML markup to WordPress blocks</p>
+                </div>
+                <div class="card-content">
+                    <div class="code-block">POST /api/convert
+Content-Type: application/json
+
+{
+  "html": "&lt;div class=\\"hero\\">&lt;h1>Welcome&lt;/h1>&lt;/div>",
+  "provider": "greenshift",
+  "options": {
+    "preserveClasses": true,
+    "generateUniqueIds": true
+  }
+}</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="flex items-center gap-2">
+                        <div class="flex h-6 w-6 items-center justify-center rounded bg-primary/10">
+                            <svg class="h-3 w-3 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M4.687 11.424a5.5 5.5 0 019.201 2.466l.312-.311h-2.433a.75.75 0 000-1.5h4.242a.75.75 0 01.75.75v4.242a.75.75 0 01-1.5 0v-2.43l-.31.31a7 7 0 01-11.712-3.138.75.75 0 011.449-.39z"/>
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Blocks to HTML</h3>
+                    </div>
+                    <p class="card-description mt-2">Extract clean HTML from block markup</p>
+                </div>
+                <div class="card-content">
+                    <div class="code-block">POST /api/blocks-to-html
+Content-Type: application/json
+
+{
+  "blockMarkup": "&lt;!-- wp:greenshift-blocks/element -->
+&lt;div class=\\"hero\\">&lt;h1>Welcome&lt;/h1>&lt;/div>
+&lt;!-- /wp:greenshift-blocks/element -->"
+}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center">
+            <div class="flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-4">
+                <a href="/tool" class="btn btn-primary px-6 py-2 text-sm">
+                    Try Interactive Tool
+                </a>
+                <a href="/api-docs" class="btn btn-outline px-6 py-2 text-sm">
+                    View Full Documentation
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

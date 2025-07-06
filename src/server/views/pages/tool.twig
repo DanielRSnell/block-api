@@ -1,0 +1,416 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}Block Convert Tool - Interactive API Testing{% endblock %}
+
+{% block content %}
+<div class="container py-6 flex flex-col gap-6 mx-auto" x-data="blockConverter()">
+    <div class="text-center mb-6">
+        <h1 class="text-3xl font-bold mb-3">Block Convert Tool</h1>
+        <p class="text-muted-foreground text-base max-w-2xl mx-auto">
+            Interactive tool for testing the Block Convert API. Convert HTML to WordPress blocks or blocks back to clean HTML with real-time preview.
+        </p>
+    </div>
+
+    <!-- Mode Switcher -->
+    <div class="card mb-4">
+        <div class="card-content py-4">
+            <div class="flex justify-center space-x-3">
+                <button 
+                    @click="mode = 'html-to-blocks'" 
+                    :class="mode === 'html-to-blocks' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm'"
+                >
+                    🔄 HTML to Blocks
+                </button>
+                <button 
+                    @click="mode = 'blocks-to-html'" 
+                    :class="mode === 'blocks-to-html' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm'"
+                >
+                    📄 Blocks to HTML
+                </button>
+                <button 
+                    @click="mode = 'validate'" 
+                    :class="mode === 'validate' ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm'"
+                >
+                    ✅ Validate HTML
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Input Panel -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span x-show="mode === 'html-to-blocks'">HTML Input</span>
+                    <span x-show="mode === 'blocks-to-html'">Block Markup Input</span>
+                    <span x-show="mode === 'validate'">HTML to Validate</span>
+                </h2>
+                <p class="card-description">
+                    <span x-show="mode === 'html-to-blocks'">Enter HTML content to convert to WordPress blocks</span>
+                    <span x-show="mode === 'blocks-to-html'">Enter WordPress block markup to convert to clean HTML</span>
+                    <span x-show="mode === 'validate'">Enter HTML content to validate structure and compatibility</span>
+                </p>
+            </div>
+            <div class="card-content">
+                <!-- Provider Selection (HTML to Blocks only) -->
+                <div x-show="mode === 'html-to-blocks'" class="form-group">
+                    <label class="label">Block Provider</label>
+                    <select x-model="provider" class="select">
+                        <option value="greenshift">Greenshift</option>
+                        <option value="generateblocks">GenerateBlocks</option>
+                        <option value="generate-pro">GenerateBlocks Pro</option>
+                        <option value="gutenberg">Gutenberg</option>
+                    </select>
+                </div>
+
+                <!-- Options (HTML to Blocks only) -->
+                <div x-show="mode === 'html-to-blocks'" class="form-group">
+                    <label class="label">Conversion Options</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" x-model="options.preserveClasses" class="checkbox">
+                            <span class="text-sm">Preserve CSS Classes</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" x-model="options.preserveIds" class="checkbox">
+                            <span class="text-sm">Preserve Element IDs</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" x-model="options.generateUniqueIds" class="checkbox">
+                            <span class="text-sm">Generate Unique Block IDs</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Input Textarea -->
+                <div class="form-group">
+                    <label class="label">
+                        <span x-show="mode === 'html-to-blocks'">HTML Content</span>
+                        <span x-show="mode === 'blocks-to-html'">Block Markup</span>
+                        <span x-show="mode === 'validate'">HTML Content</span>
+                    </label>
+                    <textarea 
+                        x-model="input" 
+                        class="textarea" 
+                        rows="10"
+                        :placeholder="getPlaceholder()"
+                    ></textarea>
+                </div>
+
+                <!-- Quick Examples -->
+                <div class="form-group">
+                    <label class="label">Quick Examples</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        <button @click="loadExample('hero')" class="btn btn-outline btn-sm text-xs">Hero Section</button>
+                        <button @click="loadExample('card')" class="btn btn-outline btn-sm text-xs">Card Component</button>
+                        <button @click="loadExample('navigation')" class="btn btn-outline btn-sm text-xs">Navigation</button>
+                        <button @click="loadExample('form')" class="btn btn-outline btn-sm text-xs">Contact Form</button>
+                    </div>
+                </div>
+
+                <!-- Convert Button -->
+                <button 
+                    @click="convert()" 
+                    :disabled="!input.trim() || loading"
+                    class="btn btn-primary w-full py-3"
+                    :class="{ 'loading': loading }"
+                >
+                    <span x-show="!loading">
+                        <span x-show="mode === 'html-to-blocks'">Convert to Blocks</span>
+                        <span x-show="mode === 'blocks-to-html'">Convert to HTML</span>
+                        <span x-show="mode === 'validate'">Validate HTML</span>
+                    </span>
+                    <span x-show="loading" class="flex items-center justify-center">
+                        <span class="spinner mr-2"></span>
+                        Processing...
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Output Panel -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span x-show="mode === 'html-to-blocks'">Block Markup Output</span>
+                    <span x-show="mode === 'blocks-to-html'">HTML Output</span>
+                    <span x-show="mode === 'validate'">Validation Results</span>
+                </h2>
+                <p class="card-description" x-show="result || error">
+                    <span x-show="!error" class="text-green-600">✅ Conversion successful</span>
+                    <span x-show="error" class="text-red-600">❌ Conversion failed</span>
+                </p>
+            </div>
+            <div class="card-content">
+                <!-- Success Result -->
+                <div x-show="result && !error">
+                    <!-- Validation Mode Results -->
+                    <div x-show="mode === 'validate' && result.isValid !== undefined">
+                        <div class="mb-4">
+                            <span x-show="result.isValid" class="text-green-600 font-semibold">✅ HTML is valid</span>
+                            <span x-show="!result.isValid" class="text-red-600 font-semibold">❌ HTML has issues</span>
+                        </div>
+                        
+                        <div x-show="result.convertibleElements && result.convertibleElements.length" class="mb-4">
+                            <h4 class="font-semibold mb-2">Convertible Elements:</h4>
+                            <div class="flex flex-wrap gap-1">
+                                <template x-for="element in result.convertibleElements">
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs" x-text="element"></span>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div x-show="result.unsupportedElements && result.unsupportedElements.length" class="mb-4">
+                            <h4 class="font-semibold mb-2">Unsupported Elements:</h4>
+                            <div class="flex flex-wrap gap-1">
+                                <template x-for="element in result.unsupportedElements">
+                                    <span class="px-2 py-1 bg-red-100 text-red-800 rounded text-xs" x-text="element"></span>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Code Output -->
+                    <div x-show="mode !== 'validate' || !result.isValid !== undefined">
+                        <div class="flex justify-between items-center mb-4">
+                            <label class="label mb-0">Output</label>
+                            <button @click="copyResult()" class="btn btn-outline btn-sm">
+                                📋 Copy
+                            </button>
+                        </div>
+                        <div class="code-block" x-text="typeof result === 'string' ? result : JSON.stringify(result, null, 2)"></div>
+                    </div>
+                </div>
+
+                <!-- Error Result -->
+                <div x-show="error" class="text-red-600">
+                    <h4 class="font-semibold mb-2">Error Details:</h4>
+                    <div class="code-block text-red-800 bg-red-50" x-text="error"></div>
+                </div>
+
+                <!-- Empty State -->
+                <div x-show="!result && !error" class="text-center py-6 text-muted-foreground">
+                    <p>👆 Enter content above and click convert to see results here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Preview -->
+    <div class="card mt-6">
+        <div class="card-header py-3">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="card-title text-lg">Request Preview</h3>
+                    <p class="card-description text-sm">Live preview of the HTTP request that will be sent</p>
+                </div>
+                <button @click="copyRequest()" class="btn btn-outline btn-sm">
+                    📋 Copy cURL
+                </button>
+            </div>
+        </div>
+        <div class="card-content py-3">
+            <!-- HTTP Method and URL -->
+            <div class="mb-4">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center rounded-md bg-green-100 px-2 py-1 text-xs font-medium text-green-800" x-text="getMethod()"></span>
+                    <code class="text-sm text-muted-foreground" x-text="'https://your-domain.com' + getEndpoint()"></code>
+                </div>
+            </div>
+            
+            <!-- Request Headers -->
+            <div class="mb-4">
+                <h4 class="text-sm font-semibold mb-2">Headers</h4>
+                <div class="code-block py-2">Content-Type: application/json</div>
+            </div>
+            
+            <!-- Request Body -->
+            <div>
+                <h4 class="text-sm font-semibold mb-2">Request Body</h4>
+                <div class="code-block" x-text="getRequestBodyPreview()"></div>
+            </div>
+            
+            <!-- cURL Command -->
+            <div class="mt-4">
+                <h4 class="text-sm font-semibold mb-2">cURL Command</h4>
+                <div class="code-block text-xs leading-relaxed" x-text="getCurlCommand()"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function blockConverter() {
+    return {
+        mode: 'html-to-blocks',
+        input: '',
+        provider: 'greenshift',
+        options: {
+            preserveClasses: true,
+            preserveIds: true,
+            generateUniqueIds: true
+        },
+        result: null,
+        error: null,
+        loading: false,
+
+        examples: {
+            hero: {
+                'html-to-blocks': '<div class="hero bg-gradient-to-r from-blue-500 to-purple-600 text-white py-20">\n  <div class="container mx-auto text-center">\n    <h1 class="text-4xl font-bold mb-4">Welcome to Our Site</h1>\n    <p class="text-xl mb-8">Discover amazing content and features</p>\n    <button class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">Get Started</button>\n  </div>\n</div>',
+                'blocks-to-html': '<!-- wp:greenshift-blocks/element {"uniqueId":"gs-hero-123","tagName":"div","className":"hero bg-gradient-to-r from-blue-500 to-purple-600 text-white py-20"} -->\n<div class="hero bg-gradient-to-r from-blue-500 to-purple-600 text-white py-20">\n  <!-- wp:greenshift-blocks/element {"uniqueId":"gs-container-124","tagName":"div","className":"container mx-auto text-center"} -->\n  <div class="container mx-auto text-center">\n    <!-- wp:greenshift-blocks/element {"uniqueId":"gs-title-125","tagName":"h1"} -->\n    <h1 class="text-4xl font-bold mb-4">Welcome to Our Site</h1>\n    <!-- /wp:greenshift-blocks/element -->\n  </div>\n  <!-- /wp:greenshift-blocks/element -->\n</div>\n<!-- /wp:greenshift-blocks/element -->'
+            },
+            card: {
+                'html-to-blocks': '<div class="card bg-white rounded-lg shadow-md p-6 max-w-md">\n  <img src="https://picsum.photos/300/200" alt="Card image" class="w-full h-48 object-cover rounded-lg mb-4">\n  <h3 class="text-xl font-semibold mb-2">Card Title</h3>\n  <p class="text-gray-600 mb-4">This is a description of the card content. It provides context and information about what this card represents.</p>\n  <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Learn More</a>\n</div>',
+                'blocks-to-html': '<!-- wp:generateblocks/element {"tagName":"div","className":"card bg-white rounded-lg shadow-md p-6 max-w-md"} -->\n<div class="card bg-white rounded-lg shadow-md p-6 max-w-md">\n  <!-- wp:generateblocks/element {"tagName":"img","attributes":{"src":"https://picsum.photos/300/200","alt":"Card image"},"className":"w-full h-48 object-cover rounded-lg mb-4"} -->\n  <img src="https://picsum.photos/300/200" alt="Card image" class="w-full h-48 object-cover rounded-lg mb-4">\n  <!-- /wp:generateblocks/element -->\n</div>\n<!-- /wp:generateblocks/element -->'
+            },
+            navigation: {
+                'html-to-blocks': '<nav class="bg-white shadow-sm border-b">\n  <div class="container mx-auto px-4">\n    <div class="flex justify-between items-center py-4">\n      <div class="flex items-center space-x-4">\n        <a href="/" class="text-xl font-bold text-blue-600">Brand</a>\n      </div>\n      <div class="hidden md:flex items-center space-x-6">\n        <a href="/about" class="text-gray-600 hover:text-blue-600">About</a>\n        <a href="/services" class="text-gray-600 hover:text-blue-600">Services</a>\n        <a href="/contact" class="bg-blue-600 text-white px-4 py-2 rounded">Contact</a>\n      </div>\n    </div>\n  </div>\n</nav>',
+                'blocks-to-html': '<!-- wp:navigation {"className":"bg-white shadow-sm border-b"} -->\n<nav class="bg-white shadow-sm border-b">\n  <!-- wp:navigation-link {"label":"Brand","url":"/","className":"text-xl font-bold text-blue-600"} /-->\n  <!-- wp:navigation-link {"label":"About","url":"/about","className":"text-gray-600 hover:text-blue-600"} /-->\n  <!-- wp:navigation-link {"label":"Services","url":"/services","className":"text-gray-600 hover:text-blue-600"} /-->\n  <!-- wp:navigation-link {"label":"Contact","url":"/contact","className":"bg-blue-600 text-white px-4 py-2 rounded"} /-->\n</nav>\n<!-- /wp:navigation -->'
+            },
+            form: {
+                'html-to-blocks': '<form class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">\n  <h2 class="text-2xl font-bold mb-6 text-center">Contact Us</h2>\n  <div class="mb-4">\n    <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Name</label>\n    <input type="text" id="name" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">\n  </div>\n  <div class="mb-4">\n    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>\n    <input type="email" id="email" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">\n  </div>\n  <div class="mb-6">\n    <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>\n    <textarea id="message" rows="4" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>\n  </div>\n  <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Send Message</button>\n</form>',
+                'blocks-to-html': '<!-- wp:html -->\n<form class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">\n  <h2 class="text-2xl font-bold mb-6 text-center">Contact Us</h2>\n  <div class="mb-4">\n    <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Name</label>\n    <input type="text" id="name" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">\n  </div>\n</form>\n<!-- /wp:html -->'
+            }
+        },
+
+        getPlaceholder() {
+            if (this.mode === 'html-to-blocks') {
+                return 'Enter HTML content to convert to WordPress blocks...\n\nExample:\n<div class="hero">\n  <h1>Welcome</h1>\n  <p>Get started today</p>\n</div>';
+            } else if (this.mode === 'blocks-to-html') {
+                return 'Enter WordPress block markup to convert to clean HTML...\n\nExample:\n<!-- wp:greenshift-blocks/element -->\n<div class="hero">\n  <h1>Welcome</h1>\n</div>\n<!-- /wp:greenshift-blocks/element -->';
+            } else {
+                return 'Enter HTML content to validate structure and compatibility...\n\nExample:\n<div class="container">\n  <h1>Title</h1>\n  <p>Content</p>\n</div>';
+            }
+        },
+
+        loadExample(type) {
+            const example = this.examples[type];
+            if (example && example[this.mode]) {
+                this.input = example[this.mode];
+            }
+        },
+
+        getEndpoint() {
+            switch (this.mode) {
+                case 'html-to-blocks': return '/api/convert';
+                case 'blocks-to-html': return '/api/blocks-to-html';
+                case 'validate': return '/api/validate';
+                default: return '/api/convert';
+            }
+        },
+
+        getMethod() {
+            return 'POST';
+        },
+
+        async convert() {
+            if (!this.input.trim()) return;
+
+            this.loading = true;
+            this.result = null;
+            this.error = null;
+
+            try {
+                const endpoint = this.getEndpoint();
+                let body = {};
+
+                if (this.mode === 'html-to-blocks') {
+                    body = {
+                        html: this.input,
+                        provider: this.provider,
+                        options: this.options
+                    };
+                } else if (this.mode === 'blocks-to-html') {
+                    body = {
+                        blockMarkup: this.input
+                    };
+                } else if (this.mode === 'validate') {
+                    body = {
+                        html: this.input
+                    };
+                }
+
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+
+                if (response.ok) {
+                    if (this.mode === 'validate' || response.headers.get('content-type')?.includes('application/json')) {
+                        this.result = await response.json();
+                    } else {
+                        this.result = await response.text();
+                    }
+                } else {
+                    const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+                    this.error = errorData.error || `HTTP ${response.status}: ${response.statusText}`;
+                }
+            } catch (err) {
+                this.error = err.message || 'Network error occurred';
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        async copyResult() {
+            try {
+                const text = typeof this.result === 'string' ? this.result : JSON.stringify(this.result, null, 2);
+                await navigator.clipboard.writeText(text);
+                // You could add a toast notification here
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
+        },
+
+        getRequestBodyPreview() {
+            let body = {};
+
+            if (this.mode === 'html-to-blocks') {
+                body = {
+                    html: this.input || '<div class="example">Your HTML content here...</div>',
+                    provider: this.provider,
+                    options: this.options
+                };
+            } else if (this.mode === 'blocks-to-html') {
+                body = {
+                    blockMarkup: this.input || '<!-- wp:example -->Your block markup here...<!-- /wp:example -->'
+                };
+            } else if (this.mode === 'validate') {
+                body = {
+                    html: this.input || '<div class="example">Your HTML to validate...</div>'
+                };
+            }
+
+            return JSON.stringify(body, null, 2);
+        },
+
+        getCurlCommand() {
+            const endpoint = this.getEndpoint();
+            const body = this.getRequestBodyPreview();
+            
+            return `curl -X ${this.getMethod()} \\
+  -H "Content-Type: application/json" \\
+  -d '${body.replace(/'/g, "\\'")}' \\
+  "https://your-domain.com${endpoint}"`;
+        },
+
+        async copyRequest() {
+            try {
+                const curlCommand = this.getCurlCommand();
+                await navigator.clipboard.writeText(curlCommand);
+                // You could add a toast notification here
+            } catch (err) {
+                console.error('Failed to copy request:', err);
+            }
+        }
+    }
+}
+</script>
+{% endblock %}
+

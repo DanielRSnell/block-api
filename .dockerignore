@@ -1,0 +1,96 @@
+# Node modules
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Documentation
+README.md
+*.md
+
+# Test files
+test/
+tests/
+__tests__/
+*.test.js
+*.spec.js
+
+# Development files
+.eslintrc*
+.prettierrc*
+tsconfig.json
+webpack.config.js
+
+# Logs
+logs
+*.log
+
+# Temporary files
+tmp
+temp
+
+# Build artifacts (if any)
+dist/
+build/
+
+# Legacy directory (not needed for production)
+legacy/
+
+# Local development configs
+mcp-config.json
+
+# Screenshots and test assets (if any)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+assets/
+
+# Example files
+examples/
+tmw/
+stitch/
+capture-tmw.js
+test-converter.js

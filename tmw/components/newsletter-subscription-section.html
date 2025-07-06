@@ -1,0 +1,41 @@
+<section class="py-12 bg-gradient-to-br from-neutral-950 via-neutral-800 to-neutral-950 relative overflow-hidden">
+  <!-- Glass-like overlay -->
+  <div class="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/20 pointer-events-none"></div>
+  
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
+      <!-- Left side - Icon and content -->
+      <div class="flex items-center gap-6">
+        <div class="w-16 h-16 rounded-lg bg-gradient-to-br from-red-700 via-red-600 to-red-700 backdrop-blur-sm border border-red-600/30 flex items-center justify-center flex-shrink-0 shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold text-white mb-1">Important updates waiting for you!</h3>
+          <p class="text-neutral-300">Subscribe and grab 20% OFF!</p>
+        </div>
+      </div>
+
+      <!-- Right side - Email form -->
+      <div class="w-full lg:w-auto lg:min-w-[400px]">
+        <form class="flex gap-3">
+          <div class="flex-1">
+            <input 
+              type="email" 
+              placeholder="Your email *" 
+              required
+              class="w-full px-4 py-3 bg-gradient-to-br from-neutral-800/80 to-neutral-900/80 backdrop-blur-sm border border-neutral-700/50 rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500/50 transition-all duration-200"
+            >
+          </div>
+          <button 
+            type="submit"
+            class="px-6 py-3 bg-gradient-to-r from-red-700 via-red-600 to-red-700 hover:from-red-600 hover:via-red-500 hover:to-red-600 text-white font-semibold rounded-lg transition-all duration-200 whitespace-nowrap shadow-lg hover:shadow-red-500/25 hover:-translate-y-0.5 backdrop-blur-sm"
+          >
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

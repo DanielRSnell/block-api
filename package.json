@@ -1,0 +1,79 @@
+{
+  "name": "block-convert",
+  "version": "1.0.0",
+  "description": "Convert HTML to WordPress GenerateBlocks with modular provider system",
+  "main": "src/server.mjs",
+  "bin": {
+    "block-convert": "./src/cli/cli.js"
+  },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "dev": "concurrently \"npm run css:watch\" \"nodemon src/server.mjs\"",
+    "css:build": "./tailwindcss -i styles/main.css -o styles/output-main.css --minify",
+    "css:watch": "./tailwindcss -i styles/main.css -o styles/output-main.css --watch",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "build": "tsup",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src/",
+    "format": "prettier --write src/",
+    "cli": "node src/cli/cli.js",
+    "convert": "node src/cli/cli.js convert",
+    "convert-blocks": "node src/cli/cli.js convert",
+    "blocks-to-html": "node src/cli/BlocksToHtmlCli.js",
+    "docker:build": "docker build -t block-convert .",
+    "docker:build:prod": "docker build -f Dockerfile.prod -t block-convert:prod .",
+    "docker:run": "docker run -p 3000:3000 block-convert",
+    "docker:run:prod": "docker run -p 3000:3000 --env NODE_ENV=production block-convert:prod",
+    "docker:compose:up": "docker-compose up -d",
+    "docker:compose:down": "docker-compose down",
+    "docker:compose:logs": "docker-compose logs -f",
+    "deploy:update": "./scripts/update-deployment.sh",
+    "deploy:webhook": "node scripts/webhook-server.js",
+    "deploy:local": "docker-compose -f docker-compose.deploy.yml up -d",
+    "screenshots": "node scripts/take-screenshots.js"
+  },
+  "keywords": [
+    "html-conversion",
+    "generateblocks",
+    "wordpress",
+    "block-editor"
+  ],
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "commander": "^11.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "html-minifier-terser": "^7.2.0",
+    "jsdom": "^23.0.1",
+    "morgan": "^1.10.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "twig": "^1.17.1",
+    "uuid": "^9.0.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsdom": "^21.1.6",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.10.0",
+    "@types/uuid": "^9.0.7",
+    "@vitest/ui": "^1.0.4",
+    "concurrently": "^9.2.0",
+    "eslint": "^8.55.0",
+    "nodemon": "^3.0.2",
+    "prettier": "^3.1.1",
+    "puppeteer": "^24.11.2",
+    "supertest": "^6.3.3",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

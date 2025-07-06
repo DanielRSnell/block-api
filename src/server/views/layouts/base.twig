@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Block Convert API{% endblock %}</title>
+    <meta name="description" content="{% block description %}Convert HTML to WordPress blocks and vice versa with multiple provider support{% endblock %}">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/styles/output-main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% block styles %}{% endblock %}
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body>
+    <header class="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" x-data="{ mobileMenuOpen: false }">
+        <!-- Subtle gradient overlay for depth -->
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent opacity-50"></div>
+        
+        <div class="container flex h-16 max-w-screen-2xl items-center mx-auto px-6 relative">
+            <div class="mr-6 flex items-center space-x-8">
+                <!-- Logo/Brand -->
+                <a href="/" class="flex items-center space-x-3 group">
+                    <div class="relative">
+                        <!-- Logo icon -->
+                        <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-200">
+                            <svg class="h-5 w-5 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                            </svg>
+                        </div>
+                        <!-- Subtle glow effect -->
+                        <div class="absolute inset-0 rounded-lg bg-primary/20 blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                    </div>
+                    <span class="hidden font-semibold text-lg tracking-tight sm:inline-block group-hover:text-primary transition-colors duration-200">
+                        Block Convert
+                    </span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-1">
+                    <a href="/" class="nav-link text-sm font-medium px-3 py-2 rounded-md transition-all duration-200 hover:bg-accent hover:text-accent-foreground">
+                        Home
+                    </a>
+                    <a href="/tool" class="nav-link text-sm font-medium px-3 py-2 rounded-md transition-all duration-200 hover:bg-accent hover:text-accent-foreground">
+                        Tool
+                    </a>
+                    <a href="/api-docs" class="nav-link text-sm font-medium px-3 py-2 rounded-md transition-all duration-200 hover:bg-accent hover:text-accent-foreground">
+                        API Docs
+                    </a>
+                </nav>
+            </div>
+            
+            <!-- Right side actions -->
+            <div class="flex flex-1 items-center justify-end space-x-4">
+                <!-- Desktop CTA -->
+                <div class="hidden md:flex items-center space-x-3">
+                    <a href="/api-docs" class="btn btn-ghost btn-sm">
+                        Docs
+                    </a>
+                    <a href="/tool" class="btn btn-primary btn-sm">
+                        Try Tool
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button 
+                    @click="mobileMenuOpen = !mobileMenuOpen" 
+                    class="inline-flex items-center justify-center h-9 w-9 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:hidden transition-all duration-200"
+                    :class="{ 'bg-accent text-accent-foreground': mobileMenuOpen }"
+                >
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" :class="{ 'rotate-90': mobileMenuOpen }">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <span class="sr-only">Toggle Menu</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile menu with enhanced styling -->
+        <div 
+            x-show="mobileMenuOpen" 
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 transform -translate-y-2"
+            x-transition:enter-end="opacity-100 transform translate-y-0"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 transform translate-y-0"
+            x-transition:leave-end="opacity-0 transform -translate-y-2"
+            @click.away="mobileMenuOpen = false" 
+            class="border-t bg-background/95 backdrop-blur md:hidden"
+        >
+            <div class="container mx-auto px-6 py-4">
+                <nav class="flex flex-col space-y-1">
+                    <a href="/" class="flex items-center px-3 py-3 rounded-lg text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-accent transition-all duration-200">
+                        <svg class="h-4 w-4 mr-3 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                        Home
+                    </a>
+                    <a href="/tool" class="flex items-center px-3 py-3 rounded-lg text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-accent transition-all duration-200">
+                        <svg class="h-4 w-4 mr-3 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        Tool
+                    </a>
+                    <a href="/api-docs" class="flex items-center px-3 py-3 rounded-lg text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-accent transition-all duration-200">
+                        <svg class="h-4 w-4 mr-3 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        API Docs
+                    </a>
+                </nav>
+                
+                <!-- Mobile CTA -->
+                <div class="mt-4 pt-4 border-t border-border/50 flex flex-col space-y-2">
+                    <a href="/tool" class="btn btn-primary w-full justify-center">
+                        Try Tool
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="mt-24 bg-muted/20">
+        <div class="container mx-auto px-6 py-16">
+            <!-- Main footer content -->
+            <div class="grid grid-cols-1 gap-12 lg:grid-cols-4">
+                <!-- Brand section -->
+                <div class="lg:col-span-1">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <!-- Logo icon -->
+                        <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-sm">
+                            <svg class="h-5 w-5 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-foreground">Block Convert</h3>
+                    </div>
+                    <p class="text-sm text-muted-foreground leading-relaxed max-w-sm">
+                        Transform HTML into WordPress blocks and vice versa with our powerful conversion API.
+                    </p>
+                </div>
+                
+                <!-- Navigation sections -->
+                <div class="lg:col-span-3">
+                    <div class="grid grid-cols-1 gap-8 sm:grid-cols-3">
+                        <!-- API section -->
+                        <div class="space-y-4">
+                            <h4 class="text-sm font-semibold text-foreground">API</h4>
+                            <ul class="space-y-3">
+                                <li>
+                                    <a href="/api-docs" class="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
+                                        Documentation
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/api/health" class="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
+                                        Health Check
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/api/debug" class="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
+                                        System Status
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Tools section -->
+                        <div class="space-y-4">
+                            <h4 class="text-sm font-semibold text-foreground">Tools</h4>
+                            <ul class="space-y-3">
+                                <li>
+                                    <a href="/tool" class="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
+                                        Interactive Tool
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/api/convert" class="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
+                                        Convert HTML
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/api/blocks-to-html" class="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
+                                        Convert Blocks
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Support section -->
+                        <div class="space-y-4">
+                            <h4 class="text-sm font-semibold text-foreground">Support</h4>
+                            <ul class="space-y-3">
+                                <li>
+                                    <a href="/api/validate" class="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
+                                        Validate HTML
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/api/elements" class="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
+                                        Supported Elements
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom section -->
+            <div class="mt-16 pt-8 border-t border-gray-200">
+                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <p class="text-sm text-muted-foreground">
+                        © 2025 Block Convert API. Built for the WordPress community.
+                    </p>
+                    <p class="text-sm text-muted-foreground">
+                        Powered by <span class="text-foreground font-medium">Tailwind CSS</span> & <span class="text-foreground font-medium">Alpine.js</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
