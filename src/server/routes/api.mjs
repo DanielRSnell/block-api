@@ -1,6 +1,7 @@
 import express from 'express';
 import { HtmlToBlocksConverter } from '../../core/HtmlToBlocksConverter.js';
 import { BlocksToHtmlConverter } from '../../core/BlocksToHtmlConverter.js';
+import { swaggerDocument } from '../config/swagger.mjs';
 
 const router = express.Router();
 
@@ -199,6 +200,11 @@ router.get('/elements', (req, res) => {
       generateUniqueIds: 'Generate unique IDs for block elements'
     }
   });
+});
+
+// Get Swagger JSON specification
+router.get('/swagger', (req, res) => {
+  res.json(swaggerDocument);
 });
 
 export default router;

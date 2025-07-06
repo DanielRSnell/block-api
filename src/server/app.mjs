@@ -40,6 +40,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
   customSiteTitle: 'Block Convert API Documentation'
 }));
 
+// Raw Swagger JSON endpoint
+app.get('/swagger', (req, res) => {
+  res.json(swaggerDocument);
+});
+
 console.log('✅ Routes loaded: frontend, health, debug, api, swagger');
 
 // Error handling

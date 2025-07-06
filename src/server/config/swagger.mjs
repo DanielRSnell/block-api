@@ -254,6 +254,46 @@ export const swaggerDocument = {
           }
         }
       }
+    },
+    '/swagger': {
+      get: {
+        tags: ['Information'],
+        summary: 'Get OpenAPI/Swagger JSON specification',
+        description: 'Returns the complete OpenAPI 3.0 specification for this API in JSON format',
+        responses: {
+          200: {
+            description: 'OpenAPI specification',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  description: 'Complete OpenAPI 3.0 specification'
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    '/api/swagger': {
+      get: {
+        tags: ['Information'],
+        summary: 'Get OpenAPI/Swagger JSON specification (API route)',
+        description: 'Returns the complete OpenAPI 3.0 specification for this API in JSON format',
+        responses: {
+          200: {
+            description: 'OpenAPI specification',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  description: 'Complete OpenAPI 3.0 specification'
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 };
