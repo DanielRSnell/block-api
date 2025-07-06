@@ -1,6 +1,7 @@
 {
   "name": "block-convert",
   "version": "1.0.0",
+  "type": "module",
   "description": "Convert HTML to WordPress GenerateBlocks with modular provider system",
   "main": "src/server.mjs",
   "bin": {
