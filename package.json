@@ -14,6 +14,7 @@
     "css:watch": "./tailwindcss -i styles/main.css -o styles/output-main.css --watch",
     "test": "vitest",
     "test:ui": "vitest --ui",
+    "test:ui-e2e": "node test/run-ui-tests.js",
     "build": "tsup",
     "type-check": "tsc --noEmit",
     "lint": "eslint src/",
