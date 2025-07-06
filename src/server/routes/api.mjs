@@ -55,15 +55,11 @@ router.post('/blocks-to-html', async (req, res) => {
     const converter = new BlocksToHtmlConverter();
     
     // Convert blocks to HTML
-    const result = await converter.convertToHtml(blockMarkup);
+    const result = converter.convertToHtml(blockMarkup);
     
-    if (!result.success) {
-      return res.status(400).json(result);
-    }
-
     // Return the converted HTML as plain text
     res.set('Content-Type', 'text/plain');
-    res.send(result.html);
+    res.send(result);
     
   } catch (error) {
     console.error('Blocks-to-HTML conversion error:', error);
